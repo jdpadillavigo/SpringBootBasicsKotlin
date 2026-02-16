@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class QuotesRepository {
-    val quotes = mutableListOf<QuoteDto>()
+    private val quotes = mutableListOf<QuoteDto>()
 
     fun getQuotes() = quotes
 

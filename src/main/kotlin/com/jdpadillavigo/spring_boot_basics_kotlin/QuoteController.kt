@@ -18,13 +18,11 @@ class QuoteController(
     private val quotesService: QuotesService,
     private val restTemplate2: RestTemplate
 ) {
-    val quotes = mutableListOf<QuoteDto>()
-
     @GetMapping
     fun loadQuotes(
         @RequestParam("q", required = false) query: String?
     ): List<QuoteDto> {
-        return quotesService.getQuotes()
+        return quotesService.getQuotes(query)
     }
 
     @PostMapping
