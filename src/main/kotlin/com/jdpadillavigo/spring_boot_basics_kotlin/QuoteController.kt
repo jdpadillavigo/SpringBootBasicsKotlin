@@ -1,6 +1,7 @@
 package com.jdpadillavigo.spring_boot_basics_kotlin
 
 import com.jdpadillavigo.spring_boot_basics_kotlin.service.QuotesService
+import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -27,14 +28,14 @@ class QuoteController(
 
     @PostMapping
     fun postQuote(
-        @RequestBody quoteDto: QuoteDto
+        @Valid @RequestBody quoteDto: QuoteDto
     ): QuoteDto {
         return quotesService.insertQuote(quoteDto)
     }
 
     @PutMapping
     fun putQuote(
-        @RequestBody quoteDto: QuoteDto
+        @Valid @RequestBody quoteDto: QuoteDto
     ): QuoteDto {
         return quotesService.updateQuote(quoteDto)
     }
