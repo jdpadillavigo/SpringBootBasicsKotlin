@@ -1,7 +1,6 @@
 package com.jdpadillavigo.spring_boot_basics_kotlin.service
 
 import com.jdpadillavigo.spring_boot_basics_kotlin.QuoteDto
-import com.jdpadillavigo.spring_boot_basics_kotlin.QuoteNotFoundException
 import com.jdpadillavigo.spring_boot_basics_kotlin.config.QuotesConfig
 import com.jdpadillavigo.spring_boot_basics_kotlin.repository.QuotesRepository
 import org.springframework.beans.factory.annotation.Value
@@ -25,28 +24,37 @@ class QuotesService(
     }
 
     fun getQuotes(query: String?): List<QuoteDto> {
-        val quotes = if(!query.isNullOrBlank() && query.length >= quotesConfig.search.minLength) {
-            quotesRepository.getQuotes().filter {
-                it.content.contains(query, quotesConfig.search.ignoreCase)
-            }
+        return if(query != null) {
+            quotesRepository
+//                .searchQuotes(query)
+                .findByContentContainsIgnoreCase(query)
+                .map { it.toDto() }
         } else {
-            quotesRepository.getQuotes()
+            quotesRepository
+                .findAll()
+                .map { it.toDto() }
         }
-
-        return quotes
     }
 
     fun insertQuote(quote: QuoteDto): QuoteDto {
-        return quotesRepository.insertQuote(quote)
+        return quotesRepository
+            .save(
+                quote.toEntity().apply {
+                    this.id = 0
+                }
+            )
+            .toDto()
     }
 
     fun updateQuote(quote: QuoteDto): QuoteDto {
-        return quotesRepository.updateQuote(quote)
+        return quotesRepository
+            .save(
+                quote.toEntity()
+            )
+            .toDto()
     }
 
     fun deleteQuote(quoteId: Long) {
-        if(!quotesRepository.deleteQuote(quoteId)) {
-            throw QuoteNotFoundException(quoteId)
-        }
+        quotesRepository.deleteById(quoteId)
     }
 }

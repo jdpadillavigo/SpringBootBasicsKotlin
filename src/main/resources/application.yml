@@ -1,6 +1,11 @@
 spring:
   application:
     name: spring-boot-basics-kotlin
+  datasource:
+    url: "jdbc:postgresql://db.lsfxncycootieaedcrht.supabase.co:5432/postgres"
+    username: "postgres"
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
 
 quotes:
   search:

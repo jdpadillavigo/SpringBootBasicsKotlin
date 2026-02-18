@@ -16,6 +16,6 @@ data class QuoteDto (
         message = "Author must at least consist of a first and last name"
     )
     val author: String,
-    @field:Password
-    val password: String
+//    @field:Password
+//    val password: String
 )
